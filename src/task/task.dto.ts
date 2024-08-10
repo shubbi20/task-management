@@ -1,5 +1,5 @@
 import { HTTP_STATUS_CODE, ServiceError } from "../error/error.interface";
-import { Task_Priority_Type } from "./task.interface";
+import { Task_Priority_Type, Task_Status } from "./task.interface";
 import { IUser } from "../user/user.interface";
 
 enum TASK_ERROR_NAME {
@@ -7,6 +7,7 @@ enum TASK_ERROR_NAME {
   TASK_INVALID_DATA = 'TASK_INVALID_DATA',
   TASK_NOT_FOUND = 'TASK_NOT_FOUND',
   INVALID_ASSIGNED_USER = 'INVALID_ASSIGNED_USER',
+  TASK_DELETION_FAILED = 'TASK_DELETION_FAILED',
 }
 
 export const TASK_ERRORS: { [key in TASK_ERROR_NAME]: ServiceError } = {
@@ -25,9 +26,14 @@ export const TASK_ERRORS: { [key in TASK_ERROR_NAME]: ServiceError } = {
   [TASK_ERROR_NAME.INVALID_ASSIGNED_USER]: {
     name: TASK_ERROR_NAME.INVALID_ASSIGNED_USER,
     statusCode: HTTP_STATUS_CODE.BadRequest,
-  }
+  },
+    [TASK_ERROR_NAME.TASK_DELETION_FAILED]: {
+        name: TASK_ERROR_NAME.TASK_DELETION_FAILED,
+        statusCode: HTTP_STATUS_CODE.UnprocessableEntity,
+    },
 };
 
+// create task dto
 export interface createTaskDTO {
   title: string;
   description: string;
@@ -35,4 +41,11 @@ export interface createTaskDTO {
   priority: Task_Priority_Type;
   assignedTo?: IUser; 
   createdBy: string;
+}
+
+// get tasks dto
+export interface getTasksDTO {
+  title?: string;
+  status?: Task_Status;
+  priority?: Task_Priority_Type;
 }

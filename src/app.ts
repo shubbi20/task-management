@@ -64,14 +64,10 @@ const startServer = async () => {
     await connectToDatabase();
     app.use(express.json())
     app.use(responseFormatter);
-    // app.use("/",(req,res)=> {
-    //     res.status(200).json({message:"Hello World"})
-    // })
+  
     app.use("/",userRouter);
     app.use("/",taskRouter)
-    // app.use("/",(req,res)=> {
-    //    throw new BusinessLogicError(PRODUCT_ERRORS.PRODUCT_NOT_FOUND, 'Product not found');
-    // })
+   
     app.use(errorHandler);
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);

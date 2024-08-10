@@ -1,5 +1,5 @@
 import { BusinessLogicError } from "../error/error";
-import { createTaskDTO, TASK_ERRORS } from "./task.dto";
+import { createTaskDTO, getTasksDTO, TASK_ERRORS } from "./task.dto";
 import { ITask, Task_Status } from "./task.interface";
 import TaskModel from "./task.model";
 
@@ -9,6 +9,8 @@ interface ITaskService {
     updateTaskToPending: (task:ITask) => Promise<ITask>;
     updateTaskToInProgress: (task:ITask) => Promise<ITask>;
     updateTaskToCompleted: (task:ITask) => Promise<ITask>;
+    getTasks: (task: getTasksDTO) => Promise<ITask[]>;
+    deleteTask: (taskId: string) => Promise<void>;
 }
 
 class TaskService implements ITaskService{ 
@@ -46,6 +48,47 @@ class TaskService implements ITaskService{
   getTaskById = async (taskId: string) => {
     const task = await TaskModel.findById(taskId);
     return task
+  }
+
+  /**
+   * get tasks
+   * @param getTasksDTO 
+   * @returns 
+   */
+  getTasks = async ({title, status, priority}:getTasksDTO) => {
+     let query: any = {};
+
+     if(title){
+        query.title = title;
+     }
+
+     if(status){
+        query.status = status;
+     }
+
+     if(priority){
+        query.priority = priority;
+     }
+
+
+     const tasks = await TaskModel.find(query);
+
+     return tasks
+  }
+
+  /**
+   * delete task
+   * @param taskId 
+   */
+  deleteTask = async (taskId: string) => {
+    try{
+      await TaskModel.findByIdAndDelete(taskId);
+    }catch (error){
+        throw new BusinessLogicError(
+            TASK_ERRORS.TASK_NOT_FOUND,
+            'Task not found'
+        );
+    }
   }
 
   /**
