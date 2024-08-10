@@ -6,9 +6,12 @@ import TaskModel from "./task.model";
 interface ITaskService {
     createTask: (task: createTaskDTO) => Promise<ITask>;
     getTaskById: (taskId: string) => Promise<ITask | null>;
+    updateTaskToPending: (task:ITask) => Promise<ITask>;
+    updateTaskToInProgress: (task:ITask) => Promise<ITask>;
+    updateTaskToCompleted: (task:ITask) => Promise<ITask>;
 }
 
-class TaskService implements ITaskService{
+class TaskService implements ITaskService{ 
     /**
      * To create a task
      * @param createTaskDTO
@@ -43,6 +46,39 @@ class TaskService implements ITaskService{
   getTaskById = async (taskId: string) => {
     const task = await TaskModel.findById(taskId);
     return task
+  }
+
+  /**
+   * update task to pending
+   * @param task 
+   * @returns 
+   */
+  updateTaskToPending = async (task: ITask) => {
+    task.status = Task_Status.PENDING;
+    await task.save();
+    return task;
+  }
+
+  /**
+   * update Task To In Progress
+   * @param task 
+   * @returns 
+   */
+  updateTaskToInProgress = async (task: ITask) => {
+    task.status = Task_Status.IN_PROGRESS;
+    await task.save();
+    return task;
+  }
+
+  /**
+   * Update Task To Completed
+   * @param task 
+   * @returns 
+   */
+  updateTaskToCompleted = async (task: ITask) => {
+    task.status = Task_Status.COMPLETED;
+    await task.save();
+    return task;
   }
 }
 

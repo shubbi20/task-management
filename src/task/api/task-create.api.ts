@@ -18,7 +18,7 @@ interface taskCreateBodySchema {
     assignedTo?: string;
 }
 
-const taskCreateSchema = Joi.object<createTaskDTO>({
+const taskCreateSchema = Joi.object<taskCreateBodySchema>({
   title: Joi.string().required(),
   description: Joi.string().max(500).required(),
   dueDate: Joi.date().required(),
