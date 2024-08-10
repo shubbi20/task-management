@@ -7,7 +7,7 @@ import { HTTP_STATUS_CODE, ServiceError } from './error/error.interface';
 import { responseFormatter } from './middleware/formatter.middleware';
 import { BusinessLogicError } from './error/error';
 import userRouter from './user/user.router';
-
+import taskRouter from './task/task.router'
 dotenv.config();
 const port = process.env.PORT || 3009;
 const DB_URI = process.env.DB_URI;
@@ -68,6 +68,7 @@ const startServer = async () => {
     //     res.status(200).json({message:"Hello World"})
     // })
     app.use("/",userRouter);
+    app.use("/",taskRouter)
     app.use("/",(req,res)=> {
        throw new BusinessLogicError(PRODUCT_ERRORS.PRODUCT_NOT_FOUND, 'Product not found');
     })
