@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { ITask, Task_Priority_Type } from './task.interface';
+import { ITask, Task_Priority_Type, Task_Status } from './task.interface';
 
 const taskSchema: Schema = new Schema({
   title: {
@@ -25,8 +25,8 @@ const taskSchema: Schema = new Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'in-progress', 'completed'],
-    default: 'pending',
+    enum: Task_Status,
+    default: Task_Status.PENDING,
   },
   assignedTo: {
     type: mongoose.Types.ObjectId,

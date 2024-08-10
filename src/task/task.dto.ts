@@ -20,7 +20,7 @@ export const TASK_ERRORS: { [key in TASK_ERROR_NAME]: ServiceError } = {
   },
   [TASK_ERROR_NAME.TASK_NOT_FOUND]: {
     name: TASK_ERROR_NAME.TASK_NOT_FOUND,
-    statusCode: HTTP_STATUS_CODE.InternalServerError,
+    statusCode: HTTP_STATUS_CODE.NotFound,
   },
   [TASK_ERROR_NAME.INVALID_ASSIGNED_USER]: {
     name: TASK_ERROR_NAME.INVALID_ASSIGNED_USER,
