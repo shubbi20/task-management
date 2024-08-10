@@ -3,12 +3,6 @@ import { loginUserDTO, signupUserDTO, USER_ERRORS } from "./user.dto";
 import UserModel from "./user.model";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-dotenv.config();
-
-const JWT_KEY = process.env.JWT_KEY
-
-
-
 class UserService {
     loginUser = async ({email,password}:loginUserDTO) => {
         const existingUser = await this.getUserByEmail(email);
@@ -27,6 +21,9 @@ class UserService {
                 'Invalid credentials'
             )
         }
+
+        dotenv.config();
+        const JWT_KEY = process.env.JWT_KEY;
 
         if(!JWT_KEY) {
             throw new BusinessLogicError(
@@ -91,6 +88,13 @@ class UserService {
         const user = await UserModel.findOne({username})
         return user
     }
+
+    getUserById = async (userId: string) => {
+        const user = await UserModel.findById(userId)
+        return user
+    }
+
+
     
 }
 

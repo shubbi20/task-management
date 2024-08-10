@@ -6,6 +6,7 @@ enum USER_ERROR_NAME {
     USER_UPDATION_FAILED = 'USER_UPDATION_FAILED',
     USER_CREATION_FAILED = 'USER_CREATION_FAILED',
     USER_INVALID_DATA = 'USER_INVALID_DATA',
+    USER_NOT_AUTHORIZED = "USER_NOT_AUTHORIZED"
 }
 
 export const USER_ERRORS: {[key in USER_ERROR_NAME]: ServiceError } = {
@@ -28,8 +29,11 @@ export const USER_ERRORS: {[key in USER_ERROR_NAME]: ServiceError } = {
     [USER_ERROR_NAME.USER_INVALID_DATA]: {
       name: USER_ERROR_NAME.USER_INVALID_DATA,
       statusCode: HTTP_STATUS_CODE.BadRequest
-    }
-  
+    },
+    [USER_ERROR_NAME.USER_NOT_AUTHORIZED]: {
+        name: USER_ERROR_NAME.USER_NOT_AUTHORIZED,
+        statusCode: HTTP_STATUS_CODE.Unauthorized
+    }   
   }
 
 // login user dto
