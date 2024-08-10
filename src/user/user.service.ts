@@ -88,7 +88,7 @@ class UserService {
     }
 
     private getUserByUsername = async (username: string) => {
-        const user = await UserModel.findOne({username: username.toLowerCase()})
+        const user = await UserModel.findOne({username})
         return user
     }
     

@@ -25,7 +25,7 @@ const loginUserHandler = async (req: any, res: any,next:any) => {
     const {error, value} = userLoginSchema.validate(req.body);
 
     if(error) {
-        throw new BusinessLogicError(
+        throw new ControllerError(
            USER_ERRORS.USER_INVALID_DATA,
            error.message 
         )
@@ -37,10 +37,7 @@ const loginUserHandler = async (req: any, res: any,next:any) => {
        
        res.status(HTTP_STATUS_CODE.Ok).send(loginUser)
     }catch(err:any){
-        next(new BusinessLogicError(
-            USER_ERRORS.USER_NOT_FOUND,
-            err.message
-        ));
+        next(err);
     }
 }
 

@@ -9,12 +9,12 @@ const userSignupSchema = Joi.object<signupUserDTO>({
     email: Joi.string().email().required(),
     password: Joi.string()
     .min(6)
-    .pattern(new RegExp('^(?=.*[A-Z])(?=.*[0-9a-zA-Z]).{6,}$'))
-    .required()
-    .messages({
-      'string.pattern.base': 'Password must be at least 6 characters long, contain at least one uppercase letter, and at least one number or alphabet.',
-      'string.min': 'Password must be at least 6 characters long.',
-    }),
+    .pattern(new RegExp('^(?=.*[A-Z])(?=.*\\d).{6,}$'))
+        .required()
+        .messages({
+            'string.pattern.base': 'Password must be at least 6 characters long, contain at least one uppercase letter, and at least one number.',
+            'string.min': 'Password must be at least 6 characters long.',
+        }),
     username: Joi.string().required()
 })
 
@@ -24,7 +24,7 @@ const signupUserHandler = async (req: any, res: any,next:any) => {
    const {email, password, username} = req.body;
 
    const {error, value} = userSignupSchema.validate(req.body);
-
+   try{
    if(error) {
     throw new ControllerError(
        USER_ERRORS.USER_INVALID_DATA,
@@ -33,9 +33,9 @@ const signupUserHandler = async (req: any, res: any,next:any) => {
    }
 
    const userService = new UserService();
-   try{
-        const signupUser = await userService.signupUser({email,password,username});
-        res.status(200).send(signupUser)
+   
+    const signupUser = await userService.signupUser({email,password,username});
+    res.status(200).send(signupUser)
    }catch(err:any){
        next(err);
    }
