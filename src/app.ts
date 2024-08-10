@@ -6,6 +6,7 @@ import { errorHandler } from './error/error.middlerware';
 import { HTTP_STATUS_CODE, ServiceError } from './error/error.interface';
 import { responseFormatter } from './middleware/formatter.middleware';
 import { BusinessLogicError } from './error/error';
+import userRouter from './user/user.router';
 
 dotenv.config();
 const port = process.env.PORT || 3009;
@@ -26,8 +27,7 @@ export enum PRODUCT_ERROR_NAME {
     PRODUCT_ALREADY_EXISTS = 'PRODUCT_ALREADY_EXISTS',
     PRODUCT_UPDATION_FAILED = 'PRODUCT_UPDATION_FAILED',
     PRODUCT_CREATION_FAILED = 'PRODUCT_CREATION_FAILED',
-    // Add other error names as needed
-  }
+}
 
 export const PRODUCT_ERRORS: { [key in PRODUCT_ERROR_NAME]: ServiceError } = {
   [PRODUCT_ERROR_NAME.PRODUCT_NOT_FOUND]: {
@@ -46,7 +46,6 @@ export const PRODUCT_ERRORS: { [key in PRODUCT_ERROR_NAME]: ServiceError } = {
     name: PRODUCT_ERROR_NAME.PRODUCT_CREATION_FAILED,
     statusCode: HTTP_STATUS_CODE.UnprocessableEntity,
   },
-  // Add other error mappings as needed
 };  
   
 
@@ -63,13 +62,15 @@ const connectToDatabase = async () => {
 const startServer = async () => {
   try {
     await connectToDatabase();
+    app.use(express.json())
     app.use(responseFormatter);
-    app.use("/",(req,res)=> {
-        res.status(200).json({message:"Hello World"})
-    })
     // app.use("/",(req,res)=> {
-    //    throw new BusinessLogicError(PRODUCT_ERRORS.PRODUCT_NOT_FOUND, 'Product not found');
+    //     res.status(200).json({message:"Hello World"})
     // })
+    app.use("/",userRouter);
+    app.use("/",(req,res)=> {
+       throw new BusinessLogicError(PRODUCT_ERRORS.PRODUCT_NOT_FOUND, 'Product not found');
+    })
     app.use(errorHandler);
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
