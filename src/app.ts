@@ -69,9 +69,9 @@ const startServer = async () => {
     // })
     app.use("/",userRouter);
     app.use("/",taskRouter)
-    app.use("/",(req,res)=> {
-       throw new BusinessLogicError(PRODUCT_ERRORS.PRODUCT_NOT_FOUND, 'Product not found');
-    })
+    // app.use("/",(req,res)=> {
+    //    throw new BusinessLogicError(PRODUCT_ERRORS.PRODUCT_NOT_FOUND, 'Product not found');
+    // })
     app.use(errorHandler);
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
