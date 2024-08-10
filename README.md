@@ -4,7 +4,6 @@
 - Technology used:- TypeScript , Node.js , Express.js , mongoose , Mongodb
 
 ## features
-
 - User Authentication: JWT-based authentication to secure API endpoints.
 - Role-Based Access Control: Admins have full control, while regular users have restricted access.
 - Task Management: Create, update, view, and delete tasks with various status controls.
@@ -33,5 +32,10 @@ npm i
 ```bash
 npm run dev
 ```
+
+## Additional Point
+- I have uploaded the Postman API collection to the repository.
+- I’m using Nodemailer to send emails upon signup.
+- I have also written tests using Jest, covering maximum test coverage.
 
 
