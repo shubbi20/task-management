@@ -3,6 +3,7 @@ import { loginUserDTO, signupUserDTO, USER_ERRORS } from "./user.dto";
 import UserModel from "./user.model";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import emailService from "../email/email.service";
 class UserService {
     loginUser = async ({email,password}:loginUserDTO) => {
         const existingUser = await this.getUserByEmail(email);
@@ -73,6 +74,8 @@ class UserService {
         })
 
         const saveUser = await user.save();
+
+        await emailService.sendSignupEmail(email, username);
         return {
             id: saveUser._id,
             message: 'User created successfully'
@@ -92,10 +95,7 @@ class UserService {
     getUserById = async (userId: string) => {
         const user = await UserModel.findById(userId)
         return user
-    }
-
-
-    
+    } 
 }
 
 export default UserService;
