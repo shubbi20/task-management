@@ -38,6 +38,6 @@ const getUserHandler = async (req: any, res: any,next:any) => {
     }
 }
 
-router.get('/user/:userId',authenticate, getUserHandler);
+router.get('/users/:userId',authenticate, getUserHandler);
 
 export default router;

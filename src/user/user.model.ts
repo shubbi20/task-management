@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
-import { IUser } from './user.interface';
+import { IUser, USER_ROLE_TYPE } from './user.interface';
 
 const userSchema: Schema = new Schema({
   username: {
@@ -23,8 +23,8 @@ const userSchema: Schema = new Schema({
   role: {
     type: String,
     required: true,
-    enum: ['Admin', 'Manager', 'User'],
-    default: 'User',
+    enum: USER_ROLE_TYPE,
+    default: USER_ROLE_TYPE.SIMPLE,
   },
   createdAt: {
     type: Date,
@@ -52,16 +52,6 @@ userSchema.pre<IUser>('save', async function (next) {
 userSchema.methods.comparePassword = function (password: string): Promise<boolean> {
   return bcrypt.compare(password, this.hashedPassword);
 };
-
-// // Ensure virtual fields are serialized
-// userSchema.set('toJSON', {
-//   virtuals: true,
-//   versionKey: false,
-//   transform: (doc, ret) => {
-//     delete ret._id;
-//     delete ret.hashedPassword;
-//   },
-// });
 
 const UserModel = mongoose.model<IUser>('User', userSchema);
 export default UserModel;
