@@ -1,4 +1,5 @@
 import { BusinessLogicError } from "../error/error";
+import redisClient from "../redis/redis";
 import { createTaskDTO, getTasksDTO, TASK_ERRORS } from "./task.dto";
 import { ITask, Task_Status } from "./task.interface";
 import TaskModel from "./task.model";
@@ -31,7 +32,14 @@ class TaskService implements ITaskService{
         });
     try {
       const savedTask = await task.save();
+      
+      const cacheKeys = await redisClient.keys('tasksList:*');
+    if (cacheKeys.length > 0) {
+      await redisClient.del(cacheKeys);
+    }
+
       return savedTask;
+
     } catch (error) {
       throw new BusinessLogicError(
         TASK_ERRORS.TASK_CREATION_FAILED,
@@ -56,6 +64,14 @@ class TaskService implements ITaskService{
    * @returns 
    */
   getTasks = async ({title, status, priority}:getTasksDTO) => {
+    const cacheKey = `tasksList:${title|| 'taskList'}${status}${priority}`;
+
+    const cachedTasks = await redisClient.get(cacheKey);
+    if (cachedTasks) {
+        return JSON.parse(cachedTasks);
+    }
+
+
      let query: any = {};
 
      if(title){
@@ -70,8 +86,13 @@ class TaskService implements ITaskService{
         query.priority = priority;
      }
 
+   
 
      const tasks = await TaskModel.find(query);
+
+     await redisClient.set(cacheKey, JSON.stringify(tasks), {
+        EX: 3600 // Cache expiration time in seconds (e.g., 1 hour)
+    });
 
      return tasks
   }

@@ -12,6 +12,7 @@
 - Validation: Data validation using Joi to ensure the correctness of input data.
 - Postman Collection: A Postman collection is included in the repository to easily test the API.
 - Written tests using Jest for user-service, covering maximum test coverage.
+- I also implemented Redis caching for the getTasks API.
 
 [![github:](https://img.shields.io/badge/my_github-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/shubbi20)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/shubhamnegi20/)

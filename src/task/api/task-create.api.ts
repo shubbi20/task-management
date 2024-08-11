@@ -49,7 +49,7 @@ const createTaskHandler = async (req: any, res: any, next: any) => {
   
   if(!assignedToUser){
      return next(new ControllerError(
-       TASK_ERRORS.TASK_INVALID_DATA,
+       TASK_ERRORS.INVALID_ASSIGNED_USER,
        'Assigned user not found'
      ));
   }
