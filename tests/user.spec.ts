@@ -30,13 +30,14 @@ describe('user service',()=>{
     it('user should login',async ()=>{
         const loginUser = {
             ...user ,
-            _id: 1
+            _id: "1"
 
         }
         UserModel.findOne = jest.fn().mockResolvedValue(loginUser);
         loginUser.comparePassword = jest.fn().mockResolvedValue(true);
         const data = await userService.loginUser({email:loginUser.email,password:'test'})
         expect(data).not.toBeNull()
+        expect(data.token).not.toBeNull()
         expect(data.id).toEqual(loginUser._id)
     })
 
