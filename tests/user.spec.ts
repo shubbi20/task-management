@@ -4,7 +4,7 @@ import UserService from "../src/user/user.service";
 
 const user : IUser = {
     username: 'test',
-    email:'test@rentickle.com',
+    email:'fake@tester.com',
     hashedPassword: 'test',
     role: USER_ROLE_TYPE.SIMPLE,
     createdAt: new Date(),
