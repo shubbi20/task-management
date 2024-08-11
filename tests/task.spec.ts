@@ -41,15 +41,6 @@ describe('TaskService', () => {
         expect(foundTask?.title).toEqual(task.title);
     });
 
-    // it('should update a task status to In Progress', async () => {
-    //     const mockTask = { ...task,save: jest.fn() };
-    //     mockTask.status = Task_Status.PENDING;
-    //     TaskModel.findById = jest.fn().mockResolvedValue(task);
-
-    //     const updatedTask = await taskService.updateTaskToInProgress(mockTask);
-    //     expect(updatedTask.status).toEqual(Task_Status.IN_PROGRESS);
-    // });
-
     it('should delete a task by ID', async () => {
         TaskModel.findByIdAndDelete = jest.fn().mockResolvedValue(task);
 
